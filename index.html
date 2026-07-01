@@ -3,51 +3,750 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World — The Code For Artists</title>
+  <title>The Code for Artists</title>
+  <meta name="description" content="The Code for Artists — we help artists get their work promoted, for free. Pitch your song, video, or project." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #08070a;
+      --bg-2: #0e0c14;
+      --surface: #14121c;
+      --surface-2: #1b1826;
+      --line: rgba(212,175,55,0.16);
+      --gold: #d4af37;
+      --gold-soft: #e8c874;
+      --gold-deep: #b8942e;
+      --violet: #7c5cff;
+      --violet-deep: #4a2f9e;
+      --text: #f6f1e7;
+      --muted: #a49db0;
+      --muted-2: #736c80;
+      --danger: #ff6b6b;
+      --ok: #4ade80;
+      --radius: 16px;
+      --maxw: 1080px;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,0.18), transparent 60%),
+        radial-gradient(900px 500px at 0% 10%, rgba(212,175,55,0.10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .display { font-family: "Playfair Display", Georgia, serif; font-weight: 600; letter-spacing: 0.01em; }
+
+    a { color: inherit; }
+
+    .gold-text {
+      background: linear-gradient(120deg, var(--gold-soft), var(--gold) 40%, var(--gold-deep));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ---------- Header / Nav ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(8,7,10,0.92), rgba(8,7,10,0.62));
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0.9rem 1.4rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #1e1e2e 0%, #45278d 100%);
-      color: #fff;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text);
+    }
+    .brand .mark {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #0a0910;
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold-deep));
+      box-shadow: 0 6px 22px rgba(212,175,55,0.28);
+      flex-shrink: 0;
+    }
+    .brand .brand-name { font-family: "Playfair Display", serif; font-size: 1.12rem; font-weight: 600; white-space: nowrap; }
+    .brand .brand-name small { display:block; font-family:"Inter"; font-size:0.62rem; letter-spacing:0.28em; text-transform:uppercase; color: var(--muted-2); font-weight:500; }
+
+    nav.links { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .nav-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-btn:hover { color: var(--text); border-color: var(--line); }
+    .nav-btn.active {
+      color: var(--gold-soft);
+      border-color: rgba(212,175,55,0.4);
+      background: rgba(212,175,55,0.08);
+    }
+
+    .menu-toggle { display:none; background:none;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:0.45rem 0.6rem;cursor:pointer;font-size:1.2rem;line-height:1; }
+
+    /* ---------- Layout ---------- */
+    main { max-width: var(--maxw); margin: 0 auto; padding: 0 1.4rem 5rem; }
+    .view { display: none; animation: fade 0.5s ease; }
+    .view.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    section.block { margin-top: 2.6rem; }
+
+    /* ---------- Hero ---------- */
+    .hero {
       text-align: center;
+      padding: 4.5rem 1rem 2.5rem;
+      position: relative;
     }
-    .card {
-      padding: 3rem 2rem;
-    }
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-    p {
-      font-size: 1.125rem;
-      opacity: 0.75;
-    }
-    .dot {
+    .eyebrow {
       display: inline-block;
-      width: 0.6em;
-      height: 0.6em;
-      border-radius: 50%;
-      background: #4ade80;
-      margin-left: 0.3em;
-      animation: pulse 1.6s ease-in-out infinite;
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--line);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1.6rem;
+      background: rgba(212,175,55,0.05);
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
+    .hero h1 { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; margin-bottom: 1.2rem; }
+    .hero p.lede { max-width: 620px; margin: 0 auto 2.2rem; color: var(--muted); font-size: clamp(1rem, 2.2vw, 1.2rem); font-weight: 300; }
+    .free-badge { color: var(--gold-soft); font-weight: 600; }
+
+    .cta-row { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 0.85rem 1.7rem;
+      border: 1px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.25s ease, background 0.25s ease;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.98rem;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold-deep));
+      color: #0a0910;
+      box-shadow: 0 10px 30px rgba(212,175,55,0.25);
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(212,175,55,0.4); }
+    .btn-ghost { background: rgba(255,255,255,0.02); border-color: var(--line); color: var(--text); }
+    .btn-ghost:hover { border-color: rgba(212,175,55,0.4); transform: translateY(-2px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ---------- Feature cards on home ---------- */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; margin-top: 3rem; }
+    .card {
+      background: linear-gradient(160deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.7rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(300px 120px at 50% 0%, rgba(212,175,55,0.10), transparent 70%);
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .card:hover::before { opacity: 1; }
+    .card .icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
+    .card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .card p { color: var(--muted); font-size: 0.94rem; font-weight: 300; }
+    .card .arrow { margin-top: 1rem; color: var(--gold); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; }
+
+    /* ---------- Section headings ---------- */
+    .section-head { text-align: center; margin: 3rem auto 2rem; max-width: 640px; }
+    .section-head .eyebrow { margin-bottom: 1rem; }
+    .section-head h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 0.6rem; }
+    .section-head p { color: var(--muted); font-weight: 300; }
+
+    /* ---------- Panels ---------- */
+    .panel {
+      background: linear-gradient(160deg, var(--surface), var(--bg-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(1.4rem, 4vw, 2.4rem);
+    }
+    .panel + .panel { margin-top: 1.2rem; }
+    .panel h3 { color: var(--gold-soft); font-size: 1.3rem; margin-bottom: 0.6rem; }
+    .panel p { color: var(--muted); margin-bottom: 0.6rem; font-weight: 300; }
+    .panel p:last-child { margin-bottom: 0; }
+    .panel strong { color: var(--text); font-weight: 500; }
+
+    .policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.1rem; }
+
+    .note-list { list-style: none; margin-top: 0.4rem; }
+    .note-list li { color: var(--muted); font-weight: 300; padding-left: 1.4rem; position: relative; margin-bottom: 0.5rem; }
+    .note-list li::before { content: "◆"; color: var(--gold); position: absolute; left: 0; font-size: 0.7rem; top: 0.35rem; }
+
+    /* ---------- Form ---------- */
+    .form-wrap { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
+    form.pitch { display: grid; gap: 1.3rem; }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field label { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em; }
+    .field label .req { color: var(--gold); }
+    .field .hint { font-size: 0.78rem; color: var(--muted-2); font-weight: 300; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+
+    input[type="text"], input[type="email"], textarea, select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.95rem;
+      padding: 0.8rem 0.95rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: rgba(212,175,55,0.55);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.12);
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted-2); }
+
+    /* File input */
+    .file-drop {
+      border: 1.5px dashed rgba(212,175,55,0.35);
+      border-radius: 12px;
+      padding: 1.6rem;
+      text-align: center;
+      background: rgba(212,175,55,0.03);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .file-drop:hover { border-color: rgba(212,175,55,0.7); background: rgba(212,175,55,0.06); }
+    .file-drop .fi-title { font-weight: 500; margin-bottom: 0.25rem; }
+    .file-drop .fi-sub { font-size: 0.8rem; color: var(--muted-2); }
+    .file-drop input[type="file"] { display: none; }
+    .file-status { font-size: 0.85rem; margin-top: 0.6rem; font-weight: 400; }
+    .file-status.ok { color: var(--ok); }
+    .file-status.err { color: var(--danger); }
+
+    /* Big note */
+    .big-note {
+      border: 1px solid rgba(212,175,55,0.45);
+      background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(124,92,255,0.08));
+      border-radius: 14px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+    .big-note .bn-ic { font-size: 1.5rem; line-height: 1; }
+    .big-note strong { color: var(--gold-soft); }
+    .big-note p { color: var(--text); font-size: 0.9rem; font-weight: 300; margin: 0; }
+    .big-note a { color: var(--gold-soft); font-weight: 500; }
+
+    /* Terms */
+    .terms { display: grid; gap: 0.7rem; }
+    .terms .terms-title { font-weight: 500; margin-bottom: 0.2rem; }
+    .check {
+      display: flex; gap: 0.75rem; align-items: flex-start;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.8rem 0.95rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .check:hover { border-color: rgba(212,175,55,0.35); }
+    .check input { margin-top: 0.2rem; width: 18px; height: 18px; accent-color: var(--gold); flex-shrink: 0; cursor: pointer; }
+    .check span { font-size: 0.9rem; color: var(--muted); font-weight: 300; }
+    .check input:checked ~ span { color: var(--text); }
+
+    .disclaimer {
+      font-size: 0.86rem;
+      color: var(--muted);
+      font-weight: 300;
+      border-left: 2px solid var(--gold);
+      padding: 0.4rem 0 0.4rem 1rem;
+    }
+    .disclaimer + .disclaimer { margin-top: 0.9rem; }
+    .disclaimer strong { color: var(--gold-soft); font-weight: 500; }
+
+    .form-error { color: var(--danger); font-size: 0.9rem; text-align: center; min-height: 1.2em; }
+
+    /* Contact block */
+    .contact-card { text-align: center; }
+    .contact-card .mail {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--gold-soft);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212,175,55,0.4);
+      padding-bottom: 2px;
+    }
+    .contact-card .mail:hover { color: var(--gold); }
+
+    .founder {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(124,92,255,0.1);
+      border: 1px solid rgba(124,92,255,0.3);
+      color: #cbbcff;
+      padding: 0.35rem 0.9rem; border-radius: 999px;
+      font-size: 0.85rem; margin-top: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 4rem;
+      padding: 2rem 1.4rem;
+      text-align: center;
+      color: var(--muted-2);
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--gold-soft); }
+
+    /* Success toast/screen */
+    .success-screen { text-align: center; padding: 3rem 1rem; }
+    .success-screen .big { font-size: 3rem; }
+    .success-screen h2 { margin: 1rem 0 0.5rem; }
+    .success-screen p { color: var(--muted); font-weight: 300; max-width: 460px; margin: 0 auto 1.5rem; }
+
+    @media (max-width: 720px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      nav.links { display: none; position: absolute; top: 100%; right: 0; left: 0; flex-direction: column; background: var(--bg-2); border-bottom: 1px solid var(--line); padding: 0.6rem 1.4rem 1rem; gap: 0.2rem; }
+      nav.links.open { display: flex; }
+      .nav-btn { text-align: left; width: 100%; border-radius: 10px; }
+      .menu-toggle { display: block; }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Hello, World<span class="dot"></span></h1>
-    <p>GitHub Pages is live for thecodeforartists.</p>
-    <p style="margin-top:0.5rem;font-size:0.85rem;opacity:0.5;">Auto-deploy test &middot; build v2</p>
-  </div>
+  <header>
+    <div class="nav-inner">
+      <button class="brand" data-go="home" aria-label="The Code for Artists — home">
+        <span class="mark">TCA</span>
+        <span class="brand-name">The Code for Artists<small>Promotion for artists</small></span>
+      </button>
+      <button class="menu-toggle" aria-label="Menu">☰</button>
+      <nav class="links">
+        <button class="nav-btn" data-go="home">Home</button>
+        <button class="nav-btn" data-go="pitch">Pitch Your Project</button>
+        <button class="nav-btn" data-go="policy">Policy &amp; Information</button>
+        <button class="nav-btn" data-go="about">About &amp; Contact</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <div class="view active" id="view-home">
+      <div class="hero">
+        <span class="eyebrow">Independent artist promotion</span>
+        <h1>Your art deserves<br><span class="gold-text">an audience.</span></h1>
+        <p class="lede">We are The Code for Artists. We help artists get their work seen and heard — <span class="free-badge">completely free</span>. Pitch your song, video, or project, and if it's a fit, we'll publish you to our audience.</p>
+        <div class="cta-row">
+          <button class="btn btn-gold" data-go="pitch">Pitch Your Project →</button>
+          <button class="btn btn-ghost" data-go="about">About Us</button>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card" data-go="pitch">
+          <div class="icon">🎬</div>
+          <h3>Pitch Your Project</h3>
+          <p>Send us your song, video, or project. Fill out a short form, upload your work, and agree to our terms.</p>
+          <div class="arrow">Start your pitch →</div>
+        </div>
+        <div class="card" data-go="policy">
+          <div class="icon">📜</div>
+          <h3>Policy &amp; Information</h3>
+          <p>How we handle songs, videos and other art — what we do, what we don't, and what to expect.</p>
+          <div class="arrow">Read the details →</div>
+        </div>
+        <div class="card" data-go="about">
+          <div class="icon">✦</div>
+          <h3>About &amp; Contact</h3>
+          <p>Who we are, how we work, and how to reach us. Founded by actor Ioan Petre.</p>
+          <div class="arrow">Meet us →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PITCH ============ -->
+    <div class="view" id="view-pitch">
+      <div class="section-head">
+        <span class="eyebrow">Submit your work</span>
+        <h2>Pitch Your <span class="gold-text">Project</span></h2>
+        <p>Tell us about your work and upload it below. Everything marked with <span style="color:var(--gold)">◆</span> is required.</p>
+      </div>
+
+      <div class="panel">
+        <div class="big-note" style="margin-bottom:1.6rem;">
+          <span class="bn-ic">📦</span>
+          <p><strong>Large file?</strong> Only small files can be uploaded here. If your file is too big to upload, send it directly to <a href="mailto:thecodeforartists@gmail.com">thecodeforartists@gmail.com</a> and include everything you'd normally enter on this page — your full name, artist name, contact, the title of your work, a description, and your bio.</p>
+        </div>
+
+        <form class="pitch" id="pitchForm"
+              action="https://formsubmit.co/thecodeforartists@gmail.com"
+              method="POST" enctype="multipart/form-data" novalidate>
+
+          <!-- FormSubmit config -->
+          <input type="hidden" name="_subject" value="New project pitch — The Code for Artists" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="https://thecodeforartists.github.io/?submitted=1" />
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="grid-2">
+            <div class="field">
+              <label>Full name <span class="req">◆</span></label>
+              <input type="text" name="Full name" placeholder="Your legal full name" required />
+            </div>
+            <div class="field">
+              <label>Artist name <span class="req">◆</span></label>
+              <input type="text" name="Artist name" placeholder="The name you go by as an artist" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Contact email <span class="req">◆</span></label>
+            <input type="email" name="Contact email" placeholder="you@gmail.com — any provider is fine" required />
+            <span class="hint">Gmail, Outlook, Yahoo, iCloud… whatever you use. This is how we'll reach you.</span>
+          </div>
+
+          <div class="field">
+            <label>Your file <span class="req">◆</span></label>
+            <label class="file-drop" id="fileDrop">
+              <div class="fi-title">Click to choose your file</div>
+              <div class="fi-sub">Audio must be <strong>WAV</strong> · Video must be <strong>MP4</strong> (max 20 minutes)</div>
+              <input type="file" id="fileInput" name="attachment" accept=".wav,audio/wav,.mp4,video/mp4" required />
+            </label>
+            <div class="file-status" id="fileStatus"></div>
+          </div>
+
+          <div class="field">
+            <label>Title of your song / video / project <span class="req">◆</span></label>
+            <input type="text" name="Title of work" placeholder="What is it called?" required />
+          </div>
+
+          <div class="field">
+            <label>Describe what you uploaded <span class="req">◆</span></label>
+            <textarea name="Description" placeholder="Tell us about this piece — the story, the style, what makes it yours." required></textarea>
+          </div>
+
+          <div class="field">
+            <label>Detailed bio <span class="req">◆</span></label>
+            <textarea name="Artist bio" placeholder="Who are you as an artist? Your background, your journey, what you're about." required></textarea>
+          </div>
+
+          <!-- Terms -->
+          <div class="terms">
+            <div class="terms-title">Before you submit, please agree to all of the following <span class="req">◆</span></div>
+
+            <label class="check">
+              <input type="checkbox" name="Agreed: publication" value="Yes" required />
+              <span>I understand that the song, video, or project I upload will most likely be published on The Code for Artists' social media accounts.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="Agreed: rights granted" value="Yes" required />
+              <span>I grant The Code for Artists the rights they need to publish and promote the work I upload.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="Agreed: age" value="Yes" required />
+              <span>I am 18 years of age or older — or, if I'm not, I have my parent or guardian's consent to submit my work.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="Agreed: ownership" value="Yes" required />
+              <span>The work I'm uploading is mine. I created it and I hold full rights over it.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="Agreed: promotion terms" value="Yes" required />
+              <span>I understand this is a promotion. Any money The Code for Artists earns from my work through their own channels belongs solely to them.</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="Agreed: no AI" value="Yes" required />
+              <span>No AI was used in any part of the work I'm uploading.</span>
+            </label>
+          </div>
+
+          <!-- Disclaimers -->
+          <div>
+            <p class="disclaimer"><strong>Your privacy matters.</strong> The Code for Artists will never share your upload with anyone, never sell it, and never monetize it on any platform outside our own social media. The personal details you give us stay with us — they won't be shared.</p>
+            <p class="disclaimer"><strong>If you're accepted,</strong> you'll receive an email from us, and your work will be published within a week of that message.</p>
+          </div>
+
+          <div class="form-error" id="formError"></div>
+
+          <button type="submit" class="btn btn-gold" id="submitBtn" style="justify-content:center;">Submit My Project</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============ POLICY ============ -->
+    <div class="view" id="view-policy">
+      <div class="section-head">
+        <span class="eyebrow">Please read before you pitch</span>
+        <h2>Policy &amp; <span class="gold-text">Information</span></h2>
+        <p>Here's exactly how we work, what we promise, and what we don't.</p>
+      </div>
+
+      <div class="panel" style="margin-bottom:1.2rem;">
+        <h3>What we promise — and what we don't</h3>
+        <p>We can't promise that your views or your audience will grow. We rarely pay to boost anything — we simply post your work. Whether people watch is entirely their choice.</p>
+        <p>We never take credit for what you make. And we won't use your image — which is why we ask that you <strong>don't send us photos of yourself unless we've asked for them first</strong>.</p>
+      </div>
+
+      <div class="policy-grid">
+        <div class="panel">
+          <h3>🎵 If you send a song</h3>
+          <p>We'll create a lyric video for it, publish it on YouTube, and share it across our social media. (If what you send is already a lyric video, follow the "If you send a video" guidance instead.)</p>
+        </div>
+        <div class="panel">
+          <h3>🎬 If you send a video</h3>
+          <p>Make sure it's final and ready to publish — we won't edit or change your video in any way. We'll post it on YouTube and then share it on our social media.</p>
+        </div>
+        <div class="panel">
+          <h3>📄 If you send anything else</h3>
+          <p>We only review video and audio. Anything that isn't a video or an audio file won't be reviewed.</p>
+        </div>
+        <div class="panel">
+          <h3>🎨 Writers, painters &amp; craft artists</h3>
+          <p>We'd love to help promote your work — but since we don't post photos, you'll need to send us a <strong>video</strong> of your art.</p>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:1.2rem;">
+        <h3>A few more things to know</h3>
+        <ul class="note-list">
+          <li>The Code for Artists does not promote products of any kind — no T-shirts, mugs, or merchandise.</li>
+          <li>We usually don't reply on weekends.</li>
+          <li>Publishing can take anywhere from 2 days to 2 weeks.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <div class="view" id="view-about">
+      <div class="section-head">
+        <span class="eyebrow">Who we are</span>
+        <h2>About Us &amp; <span class="gold-text">Contact</span></h2>
+      </div>
+
+      <div class="panel">
+        <p style="font-size:1.05rem;color:var(--text);">We are <strong>The Code for Artists</strong> — a company founded by the actor <strong>Ioan Petre</strong>. Our mission is simple: to help artists get their work promoted, <span class="free-badge">completely free</span>.</p>
+        <span class="founder">✦ Founded by Ioan Petre</span>
+        <p style="margin-top:1.2rem;">Here's how it works. You pitch your project or song to us, and we review it. Then we get in touch to let you know whether your work has been accepted — and if it has, congratulations. We'll publish you.</p>
+        <p>How? It's easy. We have large social media accounts, and we share your work there.</p>
+      </div>
+
+      <div class="panel contact-card" style="margin-top:1.2rem;">
+        <h3 style="color:var(--text);">Get in touch</h3>
+        <p style="color:var(--muted);">Questions, large files, or anything else — reach us here:</p>
+        <a class="mail" href="mailto:thecodeforartists@gmail.com">thecodeforartists@gmail.com</a>
+        <div style="margin-top:1.6rem;">
+          <button class="btn btn-gold" data-go="pitch">Ready? Pitch Your Project →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SUCCESS ============ -->
+    <div class="view" id="view-success">
+      <div class="success-screen">
+        <div class="big">✦</div>
+        <h2 class="gold-text">Thank you!</h2>
+        <p>Your pitch has been sent to The Code for Artists. If your work is accepted, you'll receive an email from us, and your piece will be published within a week of that message.</p>
+        <button class="btn btn-ghost" data-go="home">Back to Home</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> The Code for Artists · Founded by Ioan Petre · <a href="mailto:thecodeforartists@gmail.com">thecodeforartists@gmail.com</a></p>
+  </footer>
+
+  <script>
+    /* -------- Config -------- */
+    var MAX_FILE_MB = 20; // only small files can be attached to email; larger = email directly
+    var MAX_VIDEO_MIN = 20;
+
+    /* -------- View navigation -------- */
+    var views = document.querySelectorAll('.view');
+    var navBtns = document.querySelectorAll('.nav-btn');
+    var linksNav = document.querySelector('nav.links');
+
+    function go(name) {
+      views.forEach(function (v) { v.classList.toggle('active', v.id === 'view-' + name); });
+      navBtns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-go') === name); });
+      linksNav.classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-go]');
+      if (t) { go(t.getAttribute('data-go')); }
+    });
+
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      linksNav.classList.toggle('open');
+    });
+
+    document.getElementById('year').textContent = '2026';
+
+    /* Show success view if returning from FormSubmit */
+    if (window.location.search.indexOf('submitted=1') !== -1) {
+      go('success');
+    }
+
+    /* -------- File validation -------- */
+    var fileInput = document.getElementById('fileInput');
+    var fileStatus = document.getElementById('fileStatus');
+    var fileDrop = document.getElementById('fileDrop');
+    var fileState = { ok: false, msg: '' };
+
+    function setStatus(ok, msg) {
+      fileState.ok = ok;
+      fileState.msg = msg;
+      fileStatus.textContent = msg;
+      fileStatus.className = 'file-status ' + (ok ? 'ok' : 'err');
+    }
+
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files[0];
+      if (!file) { setStatus(false, ''); return; }
+
+      var name = file.name.toLowerCase();
+      var isWav = name.endsWith('.wav') || file.type === 'audio/wav' || file.type === 'audio/x-wav' || file.type === 'audio/wave';
+      var isMp4 = name.endsWith('.mp4') || file.type === 'video/mp4';
+
+      if (!isWav && !isMp4) {
+        setStatus(false, '✗ Unsupported file. Audio must be a .wav file and video must be a .mp4 file.');
+        fileInput.value = '';
+        return;
+      }
+
+      var sizeMB = file.size / (1024 * 1024);
+      if (sizeMB > MAX_FILE_MB) {
+        setStatus(false, '✗ This file is ' + sizeMB.toFixed(1) + ' MB — too large to upload here (limit ' + MAX_FILE_MB + ' MB). Please email it directly to thecodeforartists@gmail.com with all your details.');
+        return;
+      }
+
+      if (isMp4) {
+        setStatus(true, '… checking video length …');
+        var url = URL.createObjectURL(file);
+        var v = document.createElement('video');
+        v.preload = 'metadata';
+        v.onloadedmetadata = function () {
+          URL.revokeObjectURL(url);
+          var mins = v.duration / 60;
+          if (isFinite(v.duration) && mins > MAX_VIDEO_MIN) {
+            setStatus(false, '✗ This video is ' + mins.toFixed(1) + ' min — the maximum is ' + MAX_VIDEO_MIN + ' minutes.');
+          } else {
+            setStatus(true, '✓ ' + file.name + ' (' + sizeMB.toFixed(1) + ' MB) ready to submit.');
+          }
+        };
+        v.onerror = function () {
+          URL.revokeObjectURL(url);
+          setStatus(false, '✗ Could not read this video file. Please make sure it is a valid .mp4.');
+        };
+        v.src = url;
+      } else {
+        setStatus(true, '✓ ' + file.name + ' (' + sizeMB.toFixed(1) + ' MB) ready to submit.');
+      }
+    });
+
+    /* -------- Form submit validation -------- */
+    var form = document.getElementById('pitchForm');
+    var formError = document.getElementById('formError');
+
+    form.addEventListener('submit', function (e) {
+      formError.textContent = '';
+
+      // Required text fields
+      var required = form.querySelectorAll('input[required], textarea[required]');
+      for (var i = 0; i < required.length; i++) {
+        var el = required[i];
+        if (el.type === 'checkbox' || el.type === 'file') continue;
+        if (!el.value.trim()) {
+          e.preventDefault();
+          formError.textContent = 'Please fill in every required field before submitting.';
+          el.focus();
+          return;
+        }
+        if (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())) {
+          e.preventDefault();
+          formError.textContent = 'Please enter a valid email address so we can reach you.';
+          el.focus();
+          return;
+        }
+      }
+
+      // File
+      if (!fileInput.files[0] || !fileState.ok) {
+        e.preventDefault();
+        formError.textContent = fileState.msg || 'Please upload a valid file (WAV audio or MP4 video).';
+        fileDrop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // All 6 terms
+      var checks = form.querySelectorAll('.terms input[type="checkbox"]');
+      for (var j = 0; j < checks.length; j++) {
+        if (!checks[j].checked) {
+          e.preventDefault();
+          formError.textContent = 'You must agree to all of the terms before you can submit.';
+          checks[j].closest('.check').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
+      // All good — let the native POST to FormSubmit proceed.
+      document.getElementById('submitBtn').textContent = 'Sending…';
+      document.getElementById('submitBtn').disabled = true;
+    });
+  </script>
 </body>
 </html>
