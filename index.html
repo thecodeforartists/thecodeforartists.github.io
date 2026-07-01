@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello World — The Code For Artists</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #1e1e2e 0%, #45278d 100%);
+      color: #fff;
+      text-align: center;
+    }
+    .card {
+      padding: 3rem 2rem;
+    }
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.125rem;
+      opacity: 0.75;
+    }
+    .dot {
+      display: inline-block;
+      width: 0.6em;
+      height: 0.6em;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-left: 0.3em;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hello, World<span class="dot"></span></h1>
+    <p>GitHub Pages is live for thecodeforartists.</p>
+  </div>
+</body>
+</html>
