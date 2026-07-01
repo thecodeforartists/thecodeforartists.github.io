@@ -432,13 +432,12 @@
 
         <form class="pitch" id="pitchForm"
               action="https://formsubmit.co/thecodeforartists@gmail.com"
-              method="POST" enctype="multipart/form-data" novalidate>
+              method="POST" enctype="multipart/form-data" target="fs_frame" novalidate>
 
           <!-- FormSubmit config -->
           <input type="hidden" name="_subject" value="New project pitch — The Code for Artists" />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="https://thecodeforartists.github.io/?submitted=1" />
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
           <div class="grid-2">
@@ -523,6 +522,9 @@
 
           <button type="submit" class="btn btn-gold" id="submitBtn" style="justify-content:center;">Submit My Project</button>
         </form>
+
+        <!-- Hidden target so the file uploads without leaving the page; we watch it to know when it's done -->
+        <iframe name="fs_frame" id="fsFrame" title="submission" style="display:none;width:0;height:0;border:0;"></iframe>
       </div>
     </div>
 
@@ -596,10 +598,23 @@
     <!-- ============ SUCCESS ============ -->
     <div class="view" id="view-success">
       <div class="success-screen">
-        <div class="big">✦</div>
-        <h2 class="gold-text">Thank you!</h2>
-        <p>Your pitch has been sent to The Code for Artists. If your work is accepted, you'll receive an email from us, and your piece will be published within a week of that message.</p>
+        <div class="big">✅</div>
+        <h2 class="gold-text">Your work has been successfully submitted!</h2>
+        <p>Thank you — your pitch has reached The Code for Artists. If your work is accepted, you'll receive an email from us, and your piece will be published within a week of that message.</p>
         <button class="btn btn-ghost" data-go="home">Back to Home</button>
+      </div>
+    </div>
+
+    <!-- ============ ERROR ============ -->
+    <div class="view" id="view-error">
+      <div class="success-screen">
+        <div class="big">⚠️</div>
+        <h2 class="gold-text">Something went wrong</h2>
+        <p>We couldn't submit your work right now. Please check your internet connection and try again — or try again later. If your file is large, you can also email it directly to thecodeforartists@gmail.com.</p>
+        <div class="cta-row">
+          <button class="btn btn-gold" data-go="pitch">Try Again</button>
+          <button class="btn btn-ghost" data-go="home">Back to Home</button>
+        </div>
       </div>
     </div>
   </main>
@@ -635,11 +650,6 @@
     });
 
     document.getElementById('year').textContent = '2026';
-
-    /* Show success view if returning from FormSubmit */
-    if (window.location.search.indexOf('submitted=1') !== -1) {
-      go('success');
-    }
 
     /* -------- File validation -------- */
     var fileInput = document.getElementById('fileInput');
@@ -701,6 +711,27 @@
     /* -------- Form submit validation -------- */
     var form = document.getElementById('pitchForm');
     var formError = document.getElementById('formError');
+    var submitBtn = document.getElementById('submitBtn');
+    var fsFrame = document.getElementById('fsFrame');
+    var submitting = false;
+    var submitTimer = null;
+
+    function resetSubmitButton() {
+      submitBtn.textContent = 'Submit My Project';
+      submitBtn.disabled = false;
+    }
+
+    /* The hidden iframe loads once the upload finishes -> success.
+       If nothing comes back in time -> treat as a failure. */
+    fsFrame.addEventListener('load', function () {
+      if (!submitting) return; // ignore the initial blank load
+      submitting = false;
+      if (submitTimer) { clearTimeout(submitTimer); submitTimer = null; }
+      form.reset();
+      setStatus(false, '');
+      resetSubmitButton();
+      go('success');
+    });
 
     form.addEventListener('submit', function (e) {
       formError.textContent = '';
@@ -743,9 +774,16 @@
         }
       }
 
-      // All good — let the native POST to FormSubmit proceed.
-      document.getElementById('submitBtn').textContent = 'Sending…';
-      document.getElementById('submitBtn').disabled = true;
+      // All good — let the native POST submit into the hidden iframe.
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+      submitting = true;
+      submitTimer = setTimeout(function () {
+        if (!submitting) return;
+        submitting = false;
+        resetSubmitButton();
+        go('error');
+      }, 60000);
     });
   </script>
 </body>
