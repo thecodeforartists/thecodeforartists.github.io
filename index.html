@@ -427,7 +427,7 @@
       <div class="panel">
         <div class="big-note" style="margin-bottom:1.6rem;">
           <span class="bn-ic">📦</span>
-          <p><strong>Large file?</strong> Only small files can be uploaded here. If your file is too big to upload, send it directly to <a href="mailto:thecodeforartists@gmail.com">thecodeforartists@gmail.com</a> and include everything you'd normally enter on this page — your full name, artist name, contact, the title of your work, a description, and your bio.</p>
+          <p><strong>Uploads are limited to 12 MB.</strong> If your file is larger than 12 MB, send it directly to <a href="mailto:thecodeforartists@gmail.com">thecodeforartists@gmail.com</a> and include everything you'd normally enter on this page — your full name, artist name, contact, the title of your work, a description, and your bio.</p>
         </div>
 
         <form class="pitch" id="pitchForm"
@@ -461,7 +461,7 @@
             <label>Your file <span class="req">◆</span></label>
             <label class="file-drop" id="fileDrop">
               <div class="fi-title">Click to choose your file</div>
-              <div class="fi-sub">Audio must be <strong>WAV</strong> · Video must be <strong>MP4</strong> (max 20 minutes)</div>
+              <div class="fi-sub">Audio must be <strong>WAV</strong> · Video must be <strong>MP4</strong> (max 20 minutes) · up to <strong>12 MB</strong></div>
               <input type="file" id="fileInput" name="attachment" accept=".wav,audio/wav,.mp4,video/mp4" required />
             </label>
             <div class="file-status" id="fileStatus"></div>
@@ -625,7 +625,7 @@
 
   <script>
     /* -------- Config -------- */
-    var MAX_FILE_MB = 8; // stays safely under FormSubmit's free attachment limit; larger = email directly
+    var MAX_FILE_MB = 12; // upload cap; larger files must be emailed directly
     var MAX_VIDEO_MIN = 20;
 
     /* -------- View navigation -------- */
